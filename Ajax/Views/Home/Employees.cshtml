@@ -8,14 +8,14 @@
 @section Scripts
 {
     <script>
-        var baseAddress = "https://localhost:7079";
+        var baseAddress = "https://localhost:7148";
         function getEmployees() {
             //alert("getEmployees");
             $.ajax({
                 type:"GET",
                 url: `${baseAddress}/api/Employees`
             }).done(function(data){
-                //alert(JSON.stringify(data));
+                alert(JSON.stringify(data));
                 $("#employees").empty();
                 var str="<ul>"
                 $.each(data, function(index, emp){
@@ -83,7 +83,7 @@
                 type: "PUT",
                 data: JSON.stringify(emp),
                 contentType: "application/json",
-                url: `${baseAddress}/api/Employees/13`
+                url: `${baseAddress}/api/Employees/15`
             }).done(function (data) {
                 alert(data);
             }).fail(function (err) {
