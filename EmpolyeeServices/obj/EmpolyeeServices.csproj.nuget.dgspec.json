@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\Github\\EmpolyeeServices\\EmpolyeeServices.csproj": {}
+    "C:\\Users\\User\\Desktop\\EmpolyeeServices\\EmpolyeeServices.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\Github\\EmpolyeeServices\\EmpolyeeServices.csproj": {
+    "C:\\Users\\User\\Desktop\\EmpolyeeServices\\EmpolyeeServices.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\Github\\EmpolyeeServices\\EmpolyeeServices.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\EmpolyeeServices\\EmpolyeeServices.csproj",
         "projectName": "EmpolyeeServices",
-        "projectPath": "C:\\Users\\User\\Desktop\\Github\\EmpolyeeServices\\EmpolyeeServices.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\EmpolyeeServices\\EmpolyeeServices.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\Github\\EmpolyeeServices\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\EmpolyeeServices\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
