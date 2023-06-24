@@ -1,0 +1,47 @@
+﻿<div class="container">
+    <div class="form-group">
+        <label class="form-label">First Name:</label>
+        <input type="text" id="firstName" class="form-control" onkeyup="JavaScriptCheckNameAsync()" />
+        <img id="animator" src="~/images/loading.gif" style="width:32px;height:32px;display:none;" />
+    </div>
+    <div class="form-group">
+        <div id="result"></div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var baseAddress = "https://localhost:7079";
+
+        function JavaScriptCheckNameAsync() {
+            //alert("JavaScriptCheckNameAsync");
+            var xmlHttp = new XMLHttpRequest();
+            if (xmlHttp != null) {
+                xmlHttp.open("POST", `${baseAddress}/Ajax/CheckName`, true);
+                document.getElementById("animator").style.display = "inline";
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState == 4) {
+                        if (xmlHttp.status == 200) {
+                            var message = decodeURI(xmlHttp.responseText);
+                            if (message == "true"){
+                                document.getElementById("result").textContent = "員工在職中...";
+                            }
+                            else {
+                                document.getElementById("result").textContent = "員工不存在...";
+                            }                            
+                            document.getElementById("animator").style.display = "none";
+                        }
+                    }
+                };
+                xmlHttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+                xmlHttp.send(`FirstName=${document.getElementById("firstName").value}`);     //發送呼叫
+            }
+            else {
+                alert("瀏覽器不支援XMLHttpRequest!");
+            }
+        }
+    </script>
+}
+
+

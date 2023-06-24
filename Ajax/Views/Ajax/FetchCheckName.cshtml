@@ -1,0 +1,45 @@
+﻿<div class="container">
+    <div class="form-group">
+        <label class="form-label">First Name:</label>
+        <input type="text" id="firstName" class="form-control" onkeyup="fetchCheckNameAsync()" />
+        <img id="animator" src="~/images/loading.gif" style="width:32px;height:32px;display:none;" />
+    </div>
+    <div class="form-group">
+        <div id="result"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var baseAddress = "https://localhost:7079";
+        function fetchCheckNameAsync() {
+            //alert("fetchCheckNameAsync");
+            var data = {
+                FirstName: $("#firstName").val()
+            };
+            $("#animator").show();
+            fetch(`${baseAddress}/Ajax/FetchCheckName`, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    'content-type': "application/json"
+                }
+            }).then(function (result) {
+                if (result.ok) {
+                    return result.text();       //return result.json();
+                }
+            }).then(function (data) {
+                if (data=="true"){
+                    $("#result").text("員工在職中...");
+                }
+                else{
+                    $("#result").text("員工不存在...");
+                }
+                $("#animator").hide();                
+            }).catch(function (err) {
+                $("#animator").hide();
+                alert(err);
+            });
+        }
+    </script>
+}

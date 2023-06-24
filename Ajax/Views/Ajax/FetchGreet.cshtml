@@ -1,0 +1,58 @@
+﻿<button class="btn btn-primary" onclick="fetchGetGreetAsync()">fetchGetGreetAsync</button>
+<button class="btn btn-primary" onclick="fetchPostGreetAsync()">fetchPostGreetAsync</button>
+
+<img id="animator" src="~/images/loading.gif" style="width:32px;height:32px;display:none;" />
+
+<div id="result"></div>
+
+@section Scripts
+    {
+    <script>
+        var baseAddress = "https://localhost:7079";
+
+        function fetchGetGreetAsync() {
+            //alert("fetchGetGreetAsync");
+            var p=encodeURI("Name=黃小明");
+            $("#animator").show();
+            fetch(`${baseAddress}/Ajax/Greet?${p}`, {
+                method:"GET"
+            }).then(function(result){
+                if (result.ok){
+                    return result.text();       //return result.json();
+                }
+            }).then(function(data){
+                $("#animator").hide();
+                $("#result").text(data);
+            }).catch(function(err){
+                $("#animator").hide();
+                alert(err);
+            });
+        }
+        function fetchPostGreetAsync() {
+            //alert("fetchPostGreetAsync");
+            //var p = encodeURI("Name=黃小明");
+            var data={
+                Name:"李小明"
+            };
+            $("#animator").show();
+            fetch(`${baseAddress}/Ajax/FetchPostGreet`, {
+                method: "POST",
+                body:JSON.stringify(data),
+                headers:{
+                    'content-type':"application/json"
+                }
+            }).then(function (result) {
+                if (result.ok) {
+                    return result.text();       //return result.json();
+                }
+            }).then(function (data) {
+                $("#animator").hide();
+                $("#result").text(data);
+            }).catch(function (err) {
+                $("#animator").hide();
+                alert(err);
+            });
+
+        }
+    </script>
+}

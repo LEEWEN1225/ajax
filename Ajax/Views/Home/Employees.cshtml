@@ -1,0 +1,107 @@
+﻿<button class="btn btn-primary" onclick="getEmployees()">查詢所有員工記錄</button>
+<button class="btn btn-primary" onclick="getEmployeeById()">查詢指定員工記錄</button>
+<button class="btn btn-primary" onclick="insertEmployee()">新增員工記錄</button>
+<button class="btn btn-primary" onclick="updateEmployee()">修改員工記錄</button>
+<button class="btn btn-primary" onclick="deleteEmployee()">刪除員工記錄</button>
+<div id="employees"></div>
+
+@section Scripts
+{
+    <script>
+        var baseAddress = "https://localhost:7079";
+        function getEmployees() {
+            //alert("getEmployees");
+            $.ajax({
+                type:"GET",
+                url: `${baseAddress}/api/Employees`
+            }).done(function(data){
+                //alert(JSON.stringify(data));
+                $("#employees").empty();
+                var str="<ul>"
+                $.each(data, function(index, emp){
+                    str += "<li>"
+                    str += `${emp.employeeId}, ${emp.firstName}, ${emp.lastName}, ${emp.title}`;
+                    str += "</li>"
+                });
+                str+="</ul>";
+                $("#employees").html(str);
+            }).fail(function(err){
+                alert(`${err.statusCode}:${err.statusText}`);
+            });
+        }
+
+        function getEmployeeById() {
+            //alert("getEmployeeById");
+            $.ajax({
+                type: "GET",
+                url: `${baseAddress}/api/Employees/1`
+            }).done(function (data) {
+                alert(JSON.stringify(data));
+                //$("#employees").empty();
+                //var str = "<ul>"
+                //$.each(data, function (index, emp) {
+                //    str += "<li>"
+                //    str += `${emp.employeeId}, ${emp.firstName}, ${emp.lastName}, ${emp.title}`;
+                //    str += "</li>"
+                //});
+                //str += "</ul>";
+                //$("#employees").html(str);
+            }).fail(function (err) {
+                alert(`${err.statusCode}:${err.statusText}`);
+            });
+        }
+
+        function insertEmployee() {
+            //alert("insertEmployee");
+            var emp={
+                EmployeeId:0,
+                FirstName:"Jack",
+                LastName:"Change",
+                Title:"Manager"
+            };
+            $.ajax({
+                type: "POST",
+                data:JSON.stringify(emp),
+                contentType:"application/json",
+                url: `${baseAddress}/api/Employees`
+            }).done(function (data) {
+                alert(data);
+            }).fail(function (err) {
+                alert(`${err.statusCode}:${err.statusText}`);
+            });
+        }
+
+        function updateEmployee() {
+            //alert("updateEmployee");
+            var emp = {
+                EmployeeId: 13,
+                FirstName: "Jack",
+                LastName: "Chang",
+                Title: "Assistant"
+            };
+            $.ajax({
+                type: "PUT",
+                data: JSON.stringify(emp),
+                contentType: "application/json",
+                url: `${baseAddress}/api/Employees/13`
+            }).done(function (data) {
+                alert(data);
+            }).fail(function (err) {
+                alert(`${err.statusCode}:${err.statusText}`);
+            });
+        }
+
+        function deleteEmployee() {
+            //alert("deleteEmployee");
+            $.ajax({
+                type: "DELETE",
+                url: `${baseAddress}/api/Employees/1`
+            }).done(function (data) {
+                alert(data);
+            }).fail(function (err) {
+                alert(`${err.statusCode}:${err.statusText}`);
+            });
+        }
+
+    </script>
+}

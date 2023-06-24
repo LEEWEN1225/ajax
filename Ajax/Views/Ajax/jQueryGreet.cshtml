@@ -1,0 +1,69 @@
+﻿<button class="btn btn-primary" onclick="jQueryGetGreetSync()">jQueryGetGreetSync</button>
+<button class="btn btn-primary" onclick="jQueryGetGreetAsync()">jQueryGetGreetAsync</button>
+<button class="btn btn-primary" onclick="jQueryPostGreetAsync()">jQueryPostGreetAsync</button>
+
+<img id="animator" src="~/images/loading.gif" style="width:32px;height:32px;display:none;" />
+
+<div id="result"></div>
+
+@section Scripts
+    {
+    <script>
+        var baseAddress = "https://localhost:7079";
+
+        function jQueryGetGreetSync() {
+            //alert("jQueryGetGreetSync");
+            var p=encodeURI("Name=呂小明");
+            $("#animator").show();
+            $.ajax({
+                type:"GET",
+                timeout:5000,
+                async:false,
+                url: `${baseAddress}/Ajax/Greet?${p}`
+            }).done(function(data){
+                //alert(data);
+                $("#result").text(data);
+                $("#animator").hide();
+            }).fail(function(err){
+                alert(err.statusText);
+                $("#animator").hide();
+            });
+        }
+        function jQueryGetGreetAsync() {
+            //alert("jQueryGetGreetAsync");
+            var p = encodeURI("Name=呂小明");
+            $("#animator").show();
+            $.ajax({
+                type: "GET",
+                url: `${baseAddress}/Ajax/Greet?${p}`
+            }).done(function (data) {
+                //alert(data);
+                $("#result").text(data);
+                $("#animator").hide();
+            }).fail(function (err) {
+                alert(err.statusText);
+                $("#animator").hide();
+            });
+        }
+        function jQueryPostGreetAsync() {
+            //alert("jQueryPostGreetAsync");
+            //var p = encodeURI("Name=呂小明");
+            $("#animator").show();
+            $.ajax({
+                type: "POST",
+                data:{
+                    Name: "呂小明"
+                },
+                url: `${baseAddress}/Ajax/Greet`
+            }).done(function (data) {
+                //alert(data);
+                $("#result").text(data);
+                $("#animator").hide();
+            }).fail(function (err) {
+                alert(err.statusText);
+                $("#animator").hide();
+            });
+
+        }
+    </script>
+}
