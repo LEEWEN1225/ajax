@@ -2460,11 +2460,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\Ajax\\AJAX.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\Github\\Ajax\\AJAX.csproj",
       "projectName": "AJAX",
-      "projectPath": "C:\\Users\\User\\Desktop\\Ajax\\AJAX.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\Github\\Ajax\\AJAX.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\Ajax\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\Github\\Ajax\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
