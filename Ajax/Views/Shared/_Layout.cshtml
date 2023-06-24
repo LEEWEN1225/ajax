@@ -6,23 +6,74 @@
     <title>@ViewData["Title"] - AJAX</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- 整個網站的CSS樣式 -->
+    <link href="~/assets/css/app.css" rel="stylesheet">
+
     <link rel="stylesheet" href="~/AJAX.styles.css" asp-append-version="true" />
+
+
+    @*bootstrap icon*@
+
+    <!--plugins 左側導覽列的動畫效果-->
+   <link href="~/assets/css/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+
+    <!--plugins 左側導覽列的動畫效果-->
+    <link href="~/assets/css/metismenu.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/simplebar.css" rel="stylesheet" />
+
+
+    <!-- 自己組的FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+
+
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AJAX</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+        <div class="page-wrapper">
+
+            <div class="page-content ">
+                <div class="row row-cols-12 row-cols-md-12 row-cols-xl-12">
+                    <div class="">
+                        <main role="main" class="">
+                            @RenderBody()
+                        </main>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    <div class="wrapper">
+        <!--sidebar wrapper -->
+        <div class="sidebar-wrapper" data-simplebar="true">
+            <div class="sidebar-header">
+                <div>
+                    <i class="fa-brands fa-accusoft fa-beat-fade fa-2xl" style="color: #0e83dd;"></i>
+
+                </div>
+                <div>
+                    <h4 class="logo-text">後台管理系統</h4>
+                </div>
+                <div class="toggle-icon ms-auto">
+                    <i class='bx bx-arrow-to-left'></i>
+                </div>
+            </div>
+            <!--navigation-->
+            <ul class="metismenu" id="menu">
+                <li class="menu-label">管理</li>
+                <li>
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="parent-icon">
+                            <i class="fa-solid fa-book fa-l"></i>
+                        </div>
+                        <div class="menu-title">課程</div>
+                    </a>
+                    <ul>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ajax" asp-action="JavaScriptGreet">JavaScriptGreet</a>
                         </li>
@@ -41,6 +92,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ajax" asp-action="FetchCheckName">FetchCheckName</a>
                         </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow" href="javascript:;">
+                        <div class="parent-icon">
+
+                            <i class="fa-solid fa-user-gear fa-xs"></i>
+                        </div>
+                        <div class="menu-title">會員</div>
+                    </a>
+                    <ul>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Employees">員工管理</a>
                         </li>
@@ -53,29 +115,54 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="VUEClient">SPA頁面</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
                     </ul>
-                    <partial name="_LoginPartial" />
+                </li>
+
+            </ul>
+            <!--end navigation-->
+        </div>
+    
+    <!--end sidebar wrapper -->
+    <!--start header -->
+    @*bootsrap header*@
+            <header>
+                <div class="topbar d-flex align-items-center">
+                <nav class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+           
+                    <ul class="nav nav-pills">
+                        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                        <partial name="_LoginPartial" />
+
+                    </ul>
+                </nav>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+            </header>
+    <!--end header -->
+    <!--start page wrapper -->
+
+         
+
+
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; 2023 - AJAX - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </footer>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - AJAX - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+
+    
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

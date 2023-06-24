@@ -17,6 +17,22 @@
       "PackagePath": "staticwebassets\\PM25.json"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\Github\\Ajax\\wwwroot\\assets\\css\\styles.css",
+      "PackagePath": "staticwebassets\\assets\\css\\styles.css"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\Github\\Ajax\\wwwroot\\assets\\img\\cat.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cat.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\Github\\Ajax\\wwwroot\\assets\\img\\favicons\\manifest.json",
+      "PackagePath": "staticwebassets\\assets\\img\\favicons\\manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\Github\\Ajax\\wwwroot\\assets\\js\\main.js",
+      "PackagePath": "staticwebassets\\assets\\js\\main.js"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\Github\\Ajax\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

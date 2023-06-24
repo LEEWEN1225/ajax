@@ -1,41 +1,305 @@
 ﻿@section Styles
-{
+    {
     <style>
-        thead{
-            background-color:maroon;
-            color:white;
+        thead {
+            background-color: lightblue;
+            color: white;
         }
+
+        table {
+            background-color:aliceblue;
+            
+        }
+
+        textarea {
+            
+            color: white;
+        }
+
+        table td, table th {
+            
+            color:black;
+            text-align: center;
+        }
+
     </style>
 }
 
 <div id="app" class="container">
-    <div class="form-group">
-        <!--篩選-->
+    <div class="row" >
+        <div style="flex: 1;">
+            <!-- 第一个并排的div的内容 -->
+            <div class="form-group" style="display:flex; margin-bottom:15px; margin-top:20px;">
+                <button type="button" class="btn btn-secondary" @@click="showModal">新增員工資料</button>
+            </div>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: flex-end;margin-bottom:15px; margin-top:20px;">
+            <!-- 第二个并排的div的内容 -->
+            <div style="">
+                <input class="form-control" type="text" placeholder="請輸入篩選關鍵字" v-model="filter" />
+            </div>
+            <div style="margin-left: 10px;">
+                <button class="btn btn-secondary" @@click="filterEmployeeDTOes">篩選</button>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <!--新增員工記錄按鍵-->
-    </div>
+
+
+
+   
     <div class="form-group">
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
+                    <td>Id</td>
+                    <td>姓</td>
+                    <td>名</td>
+                    <td>職稱</td>
                     <td>編輯</td>
-                    <td>EmployeeId</td>
-                    <td>FirstName</td>
-                    <td>LastName</td>
-                    <td>Title</td>
+
                 </tr>
             </thead>
+            <tbody>
+                <tr v-for="item in EmployeeDTOes">
+                    <template v-if="item.Edit==true">
+                        <td>{{item.employeeId}}</td>
+                        <td><input v-model="item.firstName" /></td>
+                        <td><input v-model="item.lastName" /></td>
+                        <td><input v-model="item.title" /></td>
+                        <td>
+                            <button type="button" class="btn btn-success" @@click="update(item)">修改</button>
+                            <button type="button" class="btn btn-warning" @@click="cancel">取消</button>
+
+                        </td>
+           
+                    </template>
+
+                    <template v-else>
+                      
+                        <td>{{item.employeeId}}</td>
+                        <td>{{item.firstName}}</td>
+                        <td>{{item.lastName}} </td>
+                        <td>{{item.title}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" @@click="edit(item.employeeId)" style="margin-right:15px">編輯</button>
+                            <button type="button" class="btn btn-danger" @@click="deleteEmployee(item.employeeId)">刪除</button>
+                        </td>
+
+                    </template>
+                </tr>
+            </tbody>
         </table>
     </div>
+    <!--新增員工記錄的畫面-->
+    <div class="modal fade" id="insertModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content" style="background-color:aliceblue ; color:black">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">新增員工資料</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">姓:</label>
+                        <input type="text" class="form-control" v-model="firstName"/>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">名:</label>
+                        <input type="text" class="form-control" v-model="lastName" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">職稱:</label>
+                        <input type="text" class="form-control" v-model="title" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary" @@click="insert" >新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--新增員工記錄的畫面-->
 </div>
 
 @section Scripts
-{
+    {
     <script src="https://unpkg.com/vue@next"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
 
+    <script>
+        var baseAddress = "https://localhost:7148";
+        var vueApp =
+        {
+            data() {
+                return {
+                    filter: "",
+                    EmployeeDTOes: [],
+                    firstNameOriginal: "",
+                    lastNameOriginal: "",
+                    titleOriginal: "",
+                    firstName: "",
+                    lastName: "",
+                    title: "",
+
+                };
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getEmployeeDTOes();
+            },
+            methods:
+            {   
+                ///篩選出所有員工功能
+                getEmployeeDTOes: function () {
+                    let _this = this;
+                    axios.get(`${baseAddress}/api/Employees`).then
+                        (response => {
+
+                            _this.EmployeeDTOes = response.data;
+                            var EmployeeList = [];
+                            for (var i = 0; i < _this.EmployeeDTOes.length; i++) {
+                                var item = _this.EmployeeDTOes[i];
+                                item.Edit = false;
+                                EmployeeList.push(item);
+                            }
+                            _this.EmployeeDTOes = EmployeeList;
+                        });
+
+                },
+
+                //編輯
+                edit: function (employeeId) {
+                    let _this = this;
+                    var EmployeeList = [];
+                    for (var i = 0; i < _this.EmployeeDTOes.length; i++) {
+                        var item={};
+                        item = _this.EmployeeDTOes[i];
+                        if (employeeId == item.employeeId) {
+                            item.Edit = true;
+                            _this.firstNameOld = item.firstName;
+                            _this.lastNameOld = item.lastName;
+                            _this.titleOld = item.title;
+                        }
+                        else{item.Edit=false;}
+                        EmployeeList.push(item);
+                    }
+                    _this.EmployeeDTOes = EmployeeList;
+                },
+
+                ///取消
+                cancel: function () {
+                    let _this = this;
+                    var EmployeeList = [];
+                    for (var i = 0; i < _this.EmployeeDTOes.length; i++) {
+                        var item = {};
+                        item = _this.EmployeeDTOes[i];
+                        if (item.Edit == true) {
+                            item.Edit = false;
+                            item.firstName = _this.firstNameOld;
+                            item.lastName = _this.lastNameOld;
+                            item.title = _this.titleOld;
+                        }
+                        EmployeeList.push(item);
+                    }
+                    _this.EmployeeDTOes = EmployeeList;
+
+                },
+
+                update: function (item) {
+                    let _this = this;
+                    var request = {};
+                    request.EmployeeId = item.employeeId;
+                    request.LastName = item.lastName;
+                    request.FirstName = item.firstName;
+                    request.Title = item.title;
+                    axios.put(`${baseAddress}/api/Employees/${item.employeeId}`, request).then(response => {
+                        alert(response.data);
+                        _this.filterEmployeeDTOes();
+                        _this.cancel();
+                    });
+                },
+
+
+                deleteEmployee: function (employeeId) {
+                    let _this = this;
+                    var ret = confirm("確定要刪除嗎?");
+                    if (ret == true) {
+
+                        axios.delete(`${baseAddress}/api/Employees/${employeeId}`).then
+                            (
+                                response => {
+                                    alert(response.data);
+                                    _this.filterEmployeeDTOes();
+                                    
+                                }
+                            );
+                    }
+                },
+
+                filterEmployeeDTOes: function () {
+                    let _this = this;
+                    
+                    var request = {};
+                    request.EmployeeId = isNaN(Number(_this.filter)) ? -1 : Number(_this.filter);
+                    request.FirstName =request.LastName=request.Title= _this.filter;
+                   
+
+                    axios.post(`${baseAddress}/api/Employees/Filter`, request).then(response => {
+                            _this.EmployeeDTOes = response.data;
+                            var EmployeeList = [];
+                            for (var i = 0; i < _this.EmployeeDTOes.length; i++) {
+                                var item = _this.EmployeeDTOes[i];
+                                item.Edit = false;
+                                EmployeeList.push(item);
+                                
+                            }
+                            _this.EmployeeDTOes = EmployeeList;
+                           
+                    });
+                        
+
+                },
+                
+                showModal:function(){
+                 $("#insertModal").modal('show');
+                },
+
+            
+
+                insert: function () {
+                    let _this = this;
+                    var request = {};
+
+                    request.EmployeeId = 0;
+                    request.FirstName = _this.firstName;
+                    request.LastName = _this.lastName;
+                    request.Title = _this.title;
+
+                    axios.post(`${baseAddress}/api/Employees`, request).then(response => {
+                        alert(response.data);
+                        _this.filterEmployeeDTOes();
+                        window.location = "/Home/VUEClient";
+                    });
+                },
+             
+
+
+
+
+
+
+
+
+
+            },
+
+
+        };
+
+        var app = Vue.createApp(vueApp).mount("#app");
     </script>
 }
